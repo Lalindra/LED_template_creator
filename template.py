@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import itertools
 
 
 def create_tile(w, h, color, index_number):
@@ -29,17 +30,17 @@ def generate_tiles(tile_w, tile_h, h_tiles, v_tiles):
 
     tiles = [] # A list to hold all the generated tiles.
 
-    color_index = 0 # Counter to loop through list of colours
+    cycled_colors = itertools.cycle(colors)
 
     for i in range(num_tiles):
         tile = f"tile_{i}"
-        if color_index == len(colors):
-            color_index = 0
 
-        tile = create_tile(tile_w, tile_h, colors[color_index], str(f"{i:03d}"))
+        tile = create_tile(tile_w, tile_h, next(cycled_colors), str(f"{i:03d}"))
+        if h_tiles == i + 1:
+            next(cycled_colors)
+            
         tiles.append(tile)
 
-        color_index += 1
 
         # Only used for testing
         # tiles[i].show()
