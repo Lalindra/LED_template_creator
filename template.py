@@ -32,15 +32,18 @@ def generate_tiles(tile_w, tile_h, h_tiles, v_tiles):
 
     cycled_colors = itertools.cycle(colors)
 
+    h_tile_counter = 0 # To keep count of horizontal tiles
+
     for i in range(num_tiles):
         tile = f"tile_{i}"
-
         tile = create_tile(tile_w, tile_h, next(cycled_colors), str(f"{i:03d}"))
-        if h_tiles == i + 1:
+        h_tile_counter += 1
+        print(h_tile_counter)
+        if h_tile_counter == h_tiles:
             next(cycled_colors)
+            h_tile_counter = 0
             
         tiles.append(tile)
-
 
         # Only used for testing
         # tiles[i].show()
@@ -64,10 +67,12 @@ def concat_tiles(tiles, h_number, v_number):
             grid.paste(tiles[th + tile_count], (tiles[0].width * th, tiles[0].height * tv))
 
         tile_count = tile_count + h_number
-        print(tile_count)
+        # print(tile_count)
 
     return grid
 
+
+# Parameter settings
 
 colors = ["Red", "Yellow", "Green", "Blue", "Magenta", "Orange"] # Define the color paller to be used
 
@@ -75,6 +80,9 @@ tile_width = 128 # With in pixels
 tile_height = 128  # Height in pixels 
 v_tiles = 12 # Number of verticle tiles 
 h_tiles = 4 # Number of horizontal tiles
+
+
+# Function calls
 
 tiles = generate_tiles(tile_width, tile_height, v_tiles, h_tiles) # Generating a list of tiles
 
